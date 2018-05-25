@@ -25,6 +25,7 @@ At fisrt you have to make an `ITag` instance. The `ITag` is an interface and cou
 - `TagArray`: An any-tag array
 - `TagCompound`: A string-tag map
 - `TagNull`: A null reference
+- `TagStringArray`: A string array, introduced in v1.1
 
 Let's create an array, with a string `HELLO`, a double `2.5` and a boolean `true`:
 ```java
