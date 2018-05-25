@@ -2,6 +2,7 @@ package ctag.tags;
 
 import ctag.Binary;
 import ctag.CTagInput;
+import ctag.exception.EndException;
 
 import java.io.IOException;
 
@@ -94,7 +95,7 @@ public class TagFloat implements ITag<Float> {
      *                        stream throws an IOException.
      * @since 1.0
      */
-    public static TagFloat parse( CTagInput input ) throws IOException {
+    public static TagFloat parse( CTagInput input ) throws IOException, EndException {
         Binary bytes = input.read( 4 );
         int byte1 = bytes.getByte( 3 ) & 0xff;
         int byte2 = bytes.getByte( 2 ) & 0xff;

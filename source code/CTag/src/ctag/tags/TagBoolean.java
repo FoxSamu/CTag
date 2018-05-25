@@ -2,6 +2,7 @@ package ctag.tags;
 
 import ctag.Binary;
 import ctag.CTagInput;
+import ctag.exception.EndException;
 
 import java.io.IOException;
 
@@ -72,7 +73,7 @@ public class TagBoolean implements ITag<Boolean> {
      *                        throws an IOException.
      * @since 1.0
      */
-    public static TagBoolean parse( CTagInput input ) throws IOException {
+    public static TagBoolean parse( CTagInput input ) throws IOException, EndException {
         byte b = input.read( 1 ).getByte( 0 );
         return new TagBoolean( ( b & 1 ) != 0 );
     }

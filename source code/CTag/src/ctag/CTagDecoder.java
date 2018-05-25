@@ -1,6 +1,8 @@
 package ctag;
 
 import ctag.exception.CTagInvalidException;
+import ctag.exception.EndException;
+import ctag.exception.NegativeLengthException;
 import ctag.tags.*;
 
 import java.io.ByteArrayInputStream;
@@ -33,13 +35,12 @@ public class CTagDecoder {
     }
 
     /**
-     * Decodes from a string
-     * @param string The string
-     * @since 1.0
+     * Decodes from a base 64 string
+     * @param string The base 64 string
+     * @since 1.1
      */
-    public CTagDecoder( String string ) {
-        Binary b = new Binary( string );
-        input = new CTagInput( new ByteArrayInputStream( b.getBytes() ) );
+    public CTagDecoder( String string ) throws IOException {
+        input = new CTagInput( new Base64InputStream( new ByteArrayInputStream( string.getBytes() ) ) );
     }
 
     /**
@@ -68,7 +69,7 @@ public class CTagDecoder {
      * @exception CTagInvalidException If the CTag code is invalid.
      * @since 1.0
      */
-    public ITag decode() throws IOException, CTagInvalidException {
+    public ITag decode() throws IOException, CTagInvalidException, EndException, NegativeLengthException {
         Binary type = input.read( 1 );
         byte typeByte = type.getByte( 0 );
 
@@ -110,6 +111,8 @@ public class CTagDecoder {
             return TagDoubleArray.parse( input );
         } else if( typeByte == 18 ) {
             return TagBooleanArray.parse( input );
+        } else if( typeByte == 19 ) {
+            return TagStringArray.parse( input );
         } else {
             throw new CTagInvalidException( "Found invalid prefix: '" + type + "'." );
         }

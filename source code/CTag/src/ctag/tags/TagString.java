@@ -2,6 +2,7 @@ package ctag.tags;
 
 import ctag.Binary;
 import ctag.CTagInput;
+import ctag.exception.EndException;
 
 import java.io.IOException;
 
@@ -45,8 +46,8 @@ public class TagString implements ITag<String> {
 
     @Override
     public Binary encode() {
-        short length = ( short ) value.length();
         byte[] bytes = value.getBytes();
+        short length = ( short ) bytes.length;
         byte[] lenBytes = {
                 ( byte ) ( length >>> 8 & 0xff ),
                 ( byte ) ( length & 0xff )
@@ -81,7 +82,7 @@ public class TagString implements ITag<String> {
      *                        throws an IOException.
      * @since 1.0
      */
-    public static TagString parse( CTagInput input ) throws IOException {
+    public static TagString parse( CTagInput input ) throws IOException, EndException {
         int len = TagShort.parse( input ).getValue();
         Binary binary = input.read( len );
         byte[] bytes = binary.getBytes();

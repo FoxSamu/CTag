@@ -2,6 +2,8 @@ package ctag.tags;
 
 import ctag.Binary;
 import ctag.CTagInput;
+import ctag.exception.EndException;
+import ctag.exception.NegativeLengthException;
 
 import java.io.IOException;
 
@@ -73,8 +75,9 @@ public class TagDoubleArray implements ITag<double[]> {
      *                        stream throws an IOException.
      * @since 1.0
      */
-    public static TagDoubleArray parse( CTagInput input ) throws IOException {
+    public static TagDoubleArray parse( CTagInput input ) throws IOException, EndException, NegativeLengthException {
         short len = TagShort.parse( input ).getValue();
+        if( len < 0 ) throw new NegativeLengthException( "Found array with negative length" );
         double[] doubles = new double[ len ];
         for( int i = 0; i < len; i++ ) {
             doubles[ i ] = TagDouble.parse( input ).getValue();

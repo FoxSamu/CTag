@@ -3,9 +3,14 @@ package ctag.tags;
 import ctag.Array;
 import ctag.Binary;
 import ctag.CTagInput;
+import ctag.Compound;
 import ctag.exception.CTagInvalidException;
+import ctag.exception.EndException;
+import ctag.exception.NegativeLengthException;
+import ctag.exception.WrongTagException;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -33,7 +38,6 @@ import java.util.Collection;
  * 00001000 0000000000000010 00000001 00000000 00000010 0000000000001011
  * ARRAY    length = 2       BYTE     = 0      SHORT    = 11
  * </pre>
- * The {@link TagEnd} is not allowed in an array
  * @since 1.0
  */
 public class TagArray implements ITag<Array> {
@@ -90,13 +94,13 @@ public class TagArray implements ITag<Array> {
      * @return The parsed {@link TagArray} if parsed with success.
      * @exception IOException          If the {@link CTagInput}'s underlying
      *                                 stream throws an IOException.
-     * @exception CTagInvalidException If a {@link TagEnd} or an invalid prefix
-     *                                 is found.
+     * @exception CTagInvalidException If an invalid prefix is found.
      * @since 1.0
      */
-    public static TagArray parse( CTagInput input ) throws IOException, CTagInvalidException {
+    public static TagArray parse( CTagInput input ) throws IOException, CTagInvalidException, EndException, NegativeLengthException {
         Array value = new Array();
         short len = TagShort.parse( input ).getValue();
+        if( len < 0 ) throw new NegativeLengthException( "Found array with negative length" );
         for( int i = 0; i < len; i++ ) {
             Binary prefixBin = input.read( 1 );
             byte prefix = prefixBin.getByte( 0 );
@@ -138,6 +142,8 @@ public class TagArray implements ITag<Array> {
                 value.add( TagDoubleArray.parse( input ) );
             } else if( prefix == 18 ) {
                 value.add( TagBooleanArray.parse( input ) );
+            } else if( prefix == 19 ) {
+                value.add( TagStringArray.parse( input ) );
             } else {
                 throw new CTagInvalidException( "Found invalid tag prefix: '" + prefixBin + "'." );
             }

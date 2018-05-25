@@ -1,6 +1,5 @@
 package ctag;
 
-import ctag.exception.TagEndException;
 import ctag.exception.WrongTagException;
 import ctag.tags.*;
 
@@ -132,12 +131,6 @@ public class Array implements Iterable<ITag> {
     public Array() {
     }
 
-    private void checkTag( ITag tag ) {
-        if( tag instanceof TagEnd ) {
-            throw new TagEndException( "TagEnd not allowed." );
-        }
-    }
-
     private void checkAddIndex( int index ) {
         if( index < 0 || index > size() ) {
             throw new IndexOutOfBoundsException(
@@ -162,7 +155,6 @@ public class Array implements Iterable<ITag> {
      * @since 1.0
      */
     public Array add( ITag value ) {
-        checkTag( value );
         values.add( value );
         return this;
     }
@@ -268,13 +260,92 @@ public class Array implements Iterable<ITag> {
     }
 
     /**
+     * Adds a byte array tag to the array
+     * @param value The value for the byte array tag
+     * @since 1.1
+     */
+    public Array add( byte... value ) {
+        values.add( new TagByteArray( value ) );
+        return this;
+    }
+
+    /**
+     * Adds a short array tag to the array
+     * @param value The value for the short array tag
+     * @since 1.1
+     */
+    public Array add( short... value ) {
+        values.add( new TagShortArray( value ) );
+        return this;
+    }
+
+    /**
+     * Adds an integer array tag to the array
+     * @param value The value for the integer array tag
+     * @since 1.1
+     */
+    public Array add( int... value ) {
+        values.add( new TagIntegerArray( value ) );
+        return this;
+    }
+
+    /**
+     * Adds a long array tag to the array
+     * @param value The value for the long array tag
+     * @since 1.1
+     */
+    public Array add( long... value ) {
+        values.add( new TagLongArray( value ) );
+        return this;
+    }
+
+    /**
+     * Adds a float array tag to the array
+     * @param value The value for the float array tag
+     * @since 1.1
+     */
+    public Array add( float... value ) {
+        values.add( new TagFloatArray( value ) );
+        return this;
+    }
+
+    /**
+     * Adds a double array tag to the array
+     * @param value The value for the double array tag
+     * @since 1.1
+     */
+    public Array add( double... value ) {
+        values.add( new TagDoubleArray( value ) );
+        return this;
+    }
+
+    /**
+     * Adds a boolean array tag to the array
+     * @param value The value for the boolean array tag
+     * @since 1.1
+     */
+    public Array add( boolean... value ) {
+        values.add( new TagBooleanArray( value ) );
+        return this;
+    }
+
+    /**
+     * Adds a string array tag to the array
+     * @param value The value for the string array tag
+     * @since 1.1
+     */
+    public Array add( String... value ) {
+        values.add( new TagStringArray( value ) );
+        return this;
+    }
+
+    /**
      * Set a value of the array to a specific tag
      * @param index The index of the value
      * @param value The new tag for the value
      * @since 1.0
      */
     public Array set( int index, ITag value ) {
-        checkTag( value );
         checkIndex( index );
         values.set( index, value );
         return this;
@@ -401,13 +472,108 @@ public class Array implements Iterable<ITag> {
     }
 
     /**
+     * Sets a value of the array to a a byte array tag
+     * @param index The index of the value
+     * @param value The byte values for the new tag
+     * @since 1.1
+     */
+    public Array set( int index, byte... value ) {
+        checkIndex( index );
+        values.set( index, new TagByteArray( value ) );
+        return this;
+    }
+
+    /**
+     * Sets a value of the array to a a short array tag
+     * @param index The index of the value
+     * @param value The short values for the new tag
+     * @since 1.1
+     */
+    public Array set( int index, short... value ) {
+        checkIndex( index );
+        values.set( index, new TagShortArray( value ) );
+        return this;
+    }
+
+    /**
+     * Sets a value of the array to a a integer array tag
+     * @param index The index of the value
+     * @param value The integer values for the new tag
+     * @since 1.1
+     */
+    public Array set( int index, int... value ) {
+        checkIndex( index );
+        values.set( index, new TagIntegerArray( value ) );
+        return this;
+    }
+
+    /**
+     * Sets a value of the array to a a long array tag
+     * @param index The index of the value
+     * @param value The long values for the new tag
+     * @since 1.1
+     */
+    public Array set( int index, long... value ) {
+        checkIndex( index );
+        values.set( index, new TagLongArray( value ) );
+        return this;
+    }
+
+    /**
+     * Sets a value of the array to a a float array tag
+     * @param index The index of the value
+     * @param value The float values for the new tag
+     * @since 1.1
+     */
+    public Array set( int index, float... value ) {
+        checkIndex( index );
+        values.set( index, new TagFloatArray( value ) );
+        return this;
+    }
+
+    /**
+     * Sets a value of the array to a a double array tag
+     * @param index The index of the value
+     * @param value The double values for the new tag
+     * @since 1.1
+     */
+    public Array set( int index, double... value ) {
+        checkIndex( index );
+        values.set( index, new TagDoubleArray( value ) );
+        return this;
+    }
+
+    /**
+     * Sets a value of the array to a a boolean array tag
+     * @param index The index of the value
+     * @param value The boolean values for the new tag
+     * @since 1.1
+     */
+    public Array set( int index, boolean... value ) {
+        checkIndex( index );
+        values.set( index, new TagBooleanArray( value ) );
+        return this;
+    }
+
+    /**
+     * Sets a value of the array to a a string array tag
+     * @param index The index of the value
+     * @param value The string values for the new tag
+     * @since 1.1
+     */
+    public Array set( int index, String... value ) {
+        checkIndex( index );
+        values.set( index, new TagStringArray( value ) );
+        return this;
+    }
+
+    /**
      * Inserts a specific tag into the array
      * @param index The index of the insertion place
      * @param value The tag to insert
      * @since 1.0
      */
     public Array insert( int index, ITag value ) {
-        checkTag( value );
         checkAddIndex( index );
         values.add( index, value );
         return this;
@@ -533,12 +699,100 @@ public class Array implements Iterable<ITag> {
         return this;
     }
 
-    private void checkTags( Collection<? extends ITag> value ) {
-        for( ITag tag : value ) {
-            if( tag instanceof TagEnd ) {
-                throw new TagEndException( "TagEnd not allowed." );
-            }
-        }
+    /**
+     * Inserts a byte array tag into the array
+     * @param index The index of the insertion place
+     * @param value The byte values for the new tag
+     * @since 1.1
+     */
+    public Array insert( int index, byte... value ) {
+        checkAddIndex( index );
+        values.add( index, new TagByteArray( value ) );
+        return this;
+    }
+
+    /**
+     * Inserts a short array tag into the array
+     * @param index The index of the insertion place
+     * @param value The short values for the new tag
+     * @since 1.1
+     */
+    public Array insert( int index, short... value ) {
+        checkAddIndex( index );
+        values.add( index, new TagShortArray( value ) );
+        return this;
+    }
+
+    /**
+     * Inserts a integer array tag into the array
+     * @param index The index of the insertion place
+     * @param value The integer values for the new tag
+     * @since 1.1
+     */
+    public Array insert( int index, int... value ) {
+        checkAddIndex( index );
+        values.add( index, new TagIntegerArray( value ) );
+        return this;
+    }
+
+    /**
+     * Inserts a long array tag into the array
+     * @param index The index of the insertion place
+     * @param value The long values for the new tag
+     * @since 1.1
+     */
+    public Array insert( int index, long... value ) {
+        checkAddIndex( index );
+        values.add( index, new TagLongArray( value ) );
+        return this;
+    }
+
+    /**
+     * Inserts a float array tag into the array
+     * @param index The index of the insertion place
+     * @param value The float values for the new tag
+     * @since 1.1
+     */
+    public Array insert( int index, float... value ) {
+        checkAddIndex( index );
+        values.add( index, new TagFloatArray( value ) );
+        return this;
+    }
+
+    /**
+     * Inserts a double array tag into the array
+     * @param index The index of the insertion place
+     * @param value The double values for the new tag
+     * @since 1.1
+     */
+    public Array insert( int index, double... value ) {
+        checkAddIndex( index );
+        values.add( index, new TagDoubleArray( value ) );
+        return this;
+    }
+
+    /**
+     * Inserts a boolean array tag into the array
+     * @param index The index of the insertion place
+     * @param value The boolean values for the new tag
+     * @since 1.1
+     */
+    public Array insert( int index, boolean... value ) {
+        checkAddIndex( index );
+        values.add( index, new TagBooleanArray( value ) );
+        return this;
+    }
+
+    /**
+     * Inserts a String array tag into the array
+     * @param index The index of the insertion place
+     * @param value The String values for the new tag
+     * @since 1.1
+     */
+    public Array insert( int index, String... value ) {
+        checkAddIndex( index );
+        values.add( index, new TagStringArray( value ) );
+        return this;
     }
 
     /**
@@ -556,7 +810,6 @@ public class Array implements Iterable<ITag> {
      * @since 1.0
      */
     public Array addAll( Collection<? extends ITag> value ) {
-        checkTags( value );
         values.addAll( value );
         return this;
     }
@@ -682,6 +935,102 @@ public class Array implements Iterable<ITag> {
     }
 
     /**
+     * Adds a list of byte array tags to the array
+     * @param value Varargs containing the byte array values for the tags
+     * @since 1.1
+     */
+    public Array addAll( byte[]... value ) {
+        for( byte[] val : value ) {
+            add( val );
+        }
+        return this;
+    }
+
+    /**
+     * Adds a list of short array tags to the array
+     * @param value Varargs containing the short array values for the tags
+     * @since 1.1
+     */
+    public Array addAll( short[]... value ) {
+        for( short[] val : value ) {
+            add( val );
+        }
+        return this;
+    }
+
+    /**
+     * Adds a list of integer array tags to the array
+     * @param value Varargs containing the integer array values for the tags
+     * @since 1.1
+     */
+    public Array addAll( int[]... value ) {
+        for( int[] val : value ) {
+            add( val );
+        }
+        return this;
+    }
+
+    /**
+     * Adds a list of long array tags to the array
+     * @param value Varargs containing the long array values for the tags
+     * @since 1.1
+     */
+    public Array addAll( long[]... value ) {
+        for( long[] val : value ) {
+            add( val );
+        }
+        return this;
+    }
+
+    /**
+     * Adds a list of float array tags to the array
+     * @param value Varargs containing the float array values for the tags
+     * @since 1.1
+     */
+    public Array addAll( float[]... value ) {
+        for( float[] val : value ) {
+            add( val );
+        }
+        return this;
+    }
+
+    /**
+     * Adds a list of double array tags to the array
+     * @param value Varargs containing the double array values for the tags
+     * @since 1.1
+     */
+    public Array addAll( double[]... value ) {
+        for( double[] val : value ) {
+            add( val );
+        }
+        return this;
+    }
+
+    /**
+     * Adds a list of boolean array tags to the array
+     * @param value Varargs containing the boolean array values for the tags
+     * @since 1.1
+     */
+    public Array addAll( boolean[]... value ) {
+        for( boolean[] val : value ) {
+            add( val );
+        }
+        return this;
+    }
+
+    /**
+     * Adds a list of string array tags to the array
+     * @param value Varargs containing the string array values for the tags
+     * @since 1.1
+     */
+    public Array addAll( String[]... value ) {
+        for( String[] val : value ) {
+            add( val );
+        }
+        return this;
+    }
+
+    /**
      * Inserts a list of specific tags into the array
      * @param index The index of the insertion place
      * @param value Varargs containing the tags
@@ -699,7 +1048,6 @@ public class Array implements Iterable<ITag> {
      * @since 1.0
      */
     public Array insertAll( int index, Collection<? extends ITag> value ) {
-        checkTags( value );
         checkAddIndex( index );
         values.addAll( index, value );
         return this;
@@ -849,6 +1197,126 @@ public class Array implements Iterable<ITag> {
     public Array insertAll( int index, Compound... value ) {
         checkAddIndex( index );
         for( Compound val : value ) {
+            insert( index, val );
+            index++;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts a list of byte array tags into the array
+     * @param index The index of the insertion place
+     * @param value Varargs containing the byte array values for the tags
+     * @since 1.1
+     */
+    public Array insertAll( int index, byte[]... value ) {
+        checkAddIndex( index );
+        for( byte[] val : value ) {
+            insert( index, val );
+            index++;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts a list of short array tags into the array
+     * @param index The index of the insertion place
+     * @param value Varargs containing the short array values for the tags
+     * @since 1.1
+     */
+    public Array insertAll( int index, short[]... value ) {
+        checkAddIndex( index );
+        for( short[] val : value ) {
+            insert( index, val );
+            index++;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts a list of integer array tags into the array
+     * @param index The index of the insertion place
+     * @param value Varargs containing the integer array values for the tags
+     * @since 1.1
+     */
+    public Array insertAll( int index, int[]... value ) {
+        checkAddIndex( index );
+        for( int[] val : value ) {
+            insert( index, val );
+            index++;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts a list of long array tags into the array
+     * @param index The index of the insertion place
+     * @param value Varargs containing the long array values for the tags
+     * @since 1.1
+     */
+    public Array insertAll( int index, long[]... value ) {
+        checkAddIndex( index );
+        for( long[] val : value ) {
+            insert( index, val );
+            index++;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts a list of float array tags into the array
+     * @param index The index of the insertion place
+     * @param value Varargs containing the float array values for the tags
+     * @since 1.1
+     */
+    public Array insertAll( int index, float[]... value ) {
+        checkAddIndex( index );
+        for( float[] val : value ) {
+            insert( index, val );
+            index++;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts a list of double array tags into the array
+     * @param index The index of the insertion place
+     * @param value Varargs containing the double array values for the tags
+     * @since 1.1
+     */
+    public Array insertAll( int index, double[]... value ) {
+        checkAddIndex( index );
+        for( double[] val : value ) {
+            insert( index, val );
+            index++;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts a list of boolean array tags into the array
+     * @param index The index of the insertion place
+     * @param value Varargs containing the boolean array values for the tags
+     * @since 1.1
+     */
+    public Array insertAll( int index, boolean[]... value ) {
+        checkAddIndex( index );
+        for( boolean[] val : value ) {
+            insert( index, val );
+            index++;
+        }
+        return this;
+    }
+
+    /**
+     * Inserts a list of string array tags into the array
+     * @param index The index of the insertion place
+     * @param value Varargs containing the string array values for the tags
+     * @since 1.1
+     */
+    public Array insertAll( int index, String[]... value ) {
+        checkAddIndex( index );
+        for( String[] val : value ) {
             insert( index, val );
             index++;
         }
@@ -1043,6 +1511,134 @@ public class Array implements Iterable<ITag> {
     }
 
     /**
+     * Returns a byte array tag of the array
+     * @param index The index of the tag
+     * @return The byte array tag of the array at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public TagByteArray getTagByteArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( TagByteArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for TagByteArray, but did not found that." );
+        }
+    }
+
+    /**
+     * Returns a short array tag of the array
+     * @param index The index of the tag
+     * @return The short array tag of the array at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public TagShortArray getTagShortArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( TagShortArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for TagShortArray, but did not found that." );
+        }
+    }
+
+    /**
+     * Returns an integer array tag of the array
+     * @param index The index of the tag
+     * @return The integer array tag of the array at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public TagIntegerArray getTagIntegerArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( TagIntegerArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for TagIntegerArray, but did not found that." );
+        }
+    }
+
+    /**
+     * Returns a long array tag of the array
+     * @param index The index of the tag
+     * @return The long array tag of the array at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public TagLongArray getTagLongArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( TagLongArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for TagLongArray, but did not found that." );
+        }
+    }
+
+    /**
+     * Returns a float array tag of the array
+     * @param index The index of the tag
+     * @return The float array tag of the array at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public TagFloatArray getTagFloatArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( TagFloatArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for TagFloatArray, but did not found that." );
+        }
+    }
+
+    /**
+     * Returns a double array tag of the array
+     * @param index The index of the tag
+     * @return The double array tag of the array at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public TagDoubleArray getTagDoubleArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( TagDoubleArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for TagDoubleArray, but did not found that." );
+        }
+    }
+
+    /**
+     * Returns a boolean array tag of the array
+     * @param index The index of the tag
+     * @return The double array tag of the array at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public TagBooleanArray getTagBooleanArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( TagBooleanArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for TagBooleanArray, but did not found that." );
+        }
+    }
+
+    /**
+     * Returns a string array tag of the array
+     * @param index The index of the tag
+     * @return The string array tag of the array at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public TagStringArray getTagStringArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( TagStringArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for TagStringArray, but did not found that." );
+        }
+    }
+
+    /**
      * Returns the integer value of a tag in the array
      * @param index The index of the tag
      * @return The integer value of the tag at index
@@ -1199,6 +1795,726 @@ public class Array implements Iterable<ITag> {
             return ( ( TagCompound ) values.get( index ) ).getValue();
         } catch( ClassCastException exception ) {
             throw new WrongTagException( "Asked for Compound, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns the byte array value of a tag in the array
+     * @param index The index of the tag
+     * @return The byte array value of the tag at index
+     * @exception WrongTagException If the tag at the index is not a byte array tag
+     * @since 1.1
+     */
+    public byte[] getByteArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( ( TagByteArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for ByteArray, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns the short array value of a tag in the array
+     * @param index The index of the tag
+     * @return The short array value of the tag at index
+     * @exception WrongTagException If the tag at the index is not a short array tag
+     * @since 1.1
+     */
+    public short[] getShortArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( ( TagShortArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for ShortArray, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns the integer array value of a tag in the array
+     * @param index The index of the tag
+     * @return The integer array value of the tag at index
+     * @exception WrongTagException If the tag at the index is not an integer array tag
+     * @since 1.1
+     */
+    public int[] getIntegerArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( ( TagIntegerArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for IntegerArray, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns the long array value of a tag in the array
+     * @param index The index of the tag
+     * @return The long array value of the tag at index
+     * @exception WrongTagException If the tag at the index is not a long array tag
+     * @since 1.1
+     */
+    public long[] getLongArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( ( TagLongArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for LongArray, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns the float array value of a tag in the array
+     * @param index The index of the tag
+     * @return The float array value of the tag at index
+     * @exception WrongTagException If the tag at the index is not a float array tag
+     * @since 1.1
+     */
+    public float[] getFloatArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( ( TagFloatArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for FloatArray, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns the double array value of a tag in the array
+     * @param index The index of the tag
+     * @return The double array value of the tag at index
+     * @exception WrongTagException If the tag at the index is not a double array tag
+     * @since 1.1
+     */
+    public double[] getDoubleArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( ( TagDoubleArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for DoubleArray, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns the boolean array value of a tag in the array
+     * @param index The index of the tag
+     * @return The boolean array value of the tag at index
+     * @exception WrongTagException If the tag at the index is not a boolean array tag
+     * @since 1.1
+     */
+    public boolean[] getBooleanArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( ( TagBooleanArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for BooleanArray, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns the string array value of a tag in the array
+     * @param index The index of the tag
+     * @return The string array value of the tag at index
+     * @exception WrongTagException If the tag at the index is not a string array tag
+     * @since 1.1
+     */
+    public String[] getStringArray( int index ) throws WrongTagException {
+        checkIndex( index );
+        try {
+            return ( ( TagStringArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            throw new WrongTagException( "Asked for StringArray, but did not found tag for that." );
+        }
+    }
+
+    /**
+     * Returns an integer tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no integer found
+     * @return The integer tag of the array at index
+     * @since 1.1
+     */
+    public TagInteger optTagInteger( int index, TagInteger def ) {
+        checkIndex( index );
+        try {
+            return ( TagInteger ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a long tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no long found
+     * @return The long tag of the array at index
+     * @since 1.1
+     */
+    public TagLong optTagLong( int index, TagLong def ) {
+        checkIndex( index );
+        try {
+            return ( TagLong ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a short tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no short found
+     * @return The short tag of the array at index
+     * @since 1.1
+     */
+    public TagShort optTagShort( int index, TagShort def ) {
+        checkIndex( index );
+        try {
+            return ( TagShort ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a byte tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no byte found
+     * @return The byte tag of the array at index
+     * @since 1.1
+     */
+    public TagByte optTagByte( int index, TagByte def ) {
+        checkIndex( index );
+        try {
+            return ( TagByte ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a double tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no double found
+     * @return The double tag of the array at index
+     * @since 1.1
+     */
+    public TagDouble optTagDouble( int index, TagDouble def ) {
+        checkIndex( index );
+        try {
+            return ( TagDouble ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a float tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no float found
+     * @return The float tag of the array at index
+     * @since 1.1
+     */
+    public TagFloat optTagFloat( int index, TagFloat def ) {
+        checkIndex( index );
+        try {
+            return ( TagFloat ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a boolean tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no boolean found
+     * @return The boolean tag of the array at index
+     * @since 1.1
+     */
+    public TagBoolean optTagBoolean( int index, TagBoolean def ) {
+        checkIndex( index );
+        try {
+            return ( TagBoolean ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a null tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no null found
+     * @return The null tag of the array at index
+     * @since 1.1
+     */
+    public TagNull optTagNull( int index, TagNull def ) {
+        checkIndex( index );
+        try {
+            return ( TagNull ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a string tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no string found
+     * @return The string tag of the array at index
+     * @since 1.1
+     */
+    public TagString optTagString( int index, TagString def ) {
+        checkIndex( index );
+        try {
+            return ( TagString ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns an array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no array found
+     * @return The array tag of the array at index
+     * @since 1.1
+     */
+    public TagArray optTagArray( int index, TagArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a compound tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no compound found
+     * @return The compound tag of the array at index
+     * @since 1.1
+     */
+    public TagCompound optTagCompound( int index, TagCompound def ) {
+        checkIndex( index );
+        try {
+            return ( TagCompound ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a byte array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no byte array found
+     * @return The byte array tag of the array at index
+     * @since 1.1
+     */
+    public TagByteArray optTagByteArray( int index, TagByteArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagByteArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a short array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no short array found
+     * @return The short array tag of the array at index
+     * @since 1.1
+     */
+    public TagShortArray optTagShortArray( int index, TagShortArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagShortArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns an integer array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no integer array found
+     * @return The integer array tag of the array at index
+     * @since 1.1
+     */
+    public TagIntegerArray optTagIntegerArray( int index, TagIntegerArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagIntegerArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a long array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no long array found
+     * @return The long array tag of the array at index
+     * @since 1.1
+     */
+    public TagLongArray optTagLongArray( int index, TagLongArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagLongArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a float array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no float array found
+     * @return The float array tag of the array at index
+     * @since 1.1
+     */
+    public TagFloatArray optTagFloatArray( int index, TagFloatArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagFloatArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a double array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no double array found
+     * @return The double array tag of the array at index
+     * @since 1.1
+     */
+    public TagDoubleArray optTagDoubleArray( int index, TagDoubleArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagDoubleArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a boolean array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no boolean array found
+     * @return The boolean array tag of the array at index
+     * @since 1.1
+     */
+    public TagBooleanArray optTagBooleanArray( int index, TagBooleanArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagBooleanArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns a string array tag of the array
+     * @param index The index of the tag
+     * @param def A default value if no string array found
+     * @return The string array tag of the array at index
+     * @since 1.1
+     */
+    public TagStringArray optTagStringArray( int index, TagStringArray def ) {
+        checkIndex( index );
+        try {
+            return ( TagStringArray ) values.get( index );
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the integer value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no integer found
+     * @return The integer value of the tag at index
+     * @since 1.1
+     */
+    public int optInteger( int index, int def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagInteger ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the long value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no long found
+     * @return The long value of the tag at index
+     * @since 1.1
+     */
+    public long optLong( int index, long def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagLong ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the short value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no short found
+     * @return The short value of the tag at index
+     * @since 1.1
+     */
+    public short optShort( int index, short def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagShort ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the byte value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no byte found
+     * @return The byte value of the tag at index
+     * @since 1.1
+     */
+    public byte optByte( int index, byte def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagByte ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the double value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no double found
+     * @return The double value of the tag at index
+     * @since 1.1
+     */
+    public double optDouble( int index, double def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagDouble ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the float value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no float found
+     * @return The float value of the tag at index
+     * @since 1.1
+     */
+    public float optFloat( int index, float def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagFloat ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the boolean value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no boolean found
+     * @return The boolean value of the tag at index
+     * @since 1.1
+     */
+    public boolean optBoolean( int index, boolean def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagBoolean ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the string value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no string found
+     * @return The string value of the tag at index
+     * @since 1.1
+     */
+    public String optString( int index, String def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagString ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no array found
+     * @return The array value of the tag at index
+     * @since 1.1
+     */
+    public Array optArray( int index, Array def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the compound value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no compound found
+     * @return The compound value of the tag at index
+     * @since 1.1
+     */
+    public Compound optCompound( int index, Compound def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagCompound ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the byte array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no byte array found
+     * @return The byte array value of the tag at index
+     * @since 1.1
+     */
+    public byte[] optByteArray( int index, byte[] def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagByteArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the short array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no short array found
+     * @return The short array value of the tag at index
+     * @since 1.1
+     */
+    public short[] optShortArray( int index, short[] def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagShortArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the integer array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no integer array found
+     * @return The integer array value of the tag at index
+     * @since 1.1
+     */
+    public int[] optIntegerArray( int index, int[] def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagIntegerArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the long array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no long array found
+     * @return The long array value of the tag at index
+     * @since 1.1
+     */
+    public long[] optLongArray( int index, long[] def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagLongArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the double array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no double array found
+     * @return The double array value of the tag at index
+     * @since 1.1
+     */
+    public double[] optDoubleArray( int index, double[] def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagDoubleArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the float array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no float array found
+     * @return The float array value of the tag at index
+     * @since 1.1
+     */
+    public float[] optFloatArray( int index, float[] def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagFloatArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the boolean array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no boolean array found
+     * @return The boolean array value of the tag at index
+     * @since 1.1
+     */
+    public boolean[] optBooleanArray( int index, boolean[] def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagBooleanArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
+        }
+    }
+
+    /**
+     * Returns the string array value of a tag in the array
+     * @param index The index of the tag
+     * @param def A default value if no string array found
+     * @return The string array value of the tag at index
+     * @since 1.1
+     */
+    public String[] optStringArray( int index, String[] def ) {
+        checkIndex( index );
+        try {
+            return ( ( TagStringArray ) values.get( index ) ).getValue();
+        } catch( ClassCastException exception ) {
+            return def;
         }
     }
 

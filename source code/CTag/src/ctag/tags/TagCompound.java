@@ -5,6 +5,8 @@ import ctag.CTagInput;
 import ctag.Compound;
 import ctag.KeyValuePair;
 import ctag.exception.CTagInvalidException;
+import ctag.exception.EndException;
+import ctag.exception.NegativeLengthException;
 
 import java.io.IOException;
 import java.util.Map;
@@ -35,7 +37,7 @@ import java.util.Map;
  * 00001001 00000001 0000000000000001 01100001 00001011 00000000
  * COMPOUND BYTE     = 1              = "a"    = 11     END
  * </pre>
- * The {@link TagEnd} is used to mark the end of the compound and is not added
+ * The {@code TagEnd} is used to mark the end of the compound and is not added
  * to the parsed value.
  * @since 1.0
  */
@@ -90,7 +92,7 @@ public class TagCompound implements ITag<Compound> {
      * @exception CTagInvalidException If an invalid prefix is found.
      * @since 1.0
      */
-    public static TagCompound parse( CTagInput input ) throws IOException, CTagInvalidException {
+    public static TagCompound parse( CTagInput input ) throws IOException, CTagInvalidException, EndException, NegativeLengthException {
         Compound value = new Compound();
         boolean foundEnd = false;
         while( !foundEnd ) {
@@ -136,6 +138,8 @@ public class TagCompound implements ITag<Compound> {
                     value.put( name, TagDoubleArray.parse( input ) );
                 } else if( prefix == 18 ) {
                     value.put( name, TagBooleanArray.parse( input ) );
+                } else if( prefix == 19 ) {
+                    value.put( name, TagStringArray.parse( input ) );
                 } else {
                     throw new CTagInvalidException( "Found invalid prefix: '" + prefixBin + "'." );
                 }

@@ -1,5 +1,8 @@
 package ctag;
 
+import ctag.exception.CTagInvalidException;
+import ctag.exception.EndException;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -27,7 +30,7 @@ public class CTagInput {
      *                        {@link IOException}
      * @since 1.0
      */
-    public Binary read( int bytes ) throws IOException {
+    public Binary read( int bytes ) throws IOException, EndException {
         Binary.Builder builder = new Binary.Builder();
         for( int i = 0; i < bytes; i++ ) {
             int bits = input.read();
@@ -35,6 +38,8 @@ public class CTagInput {
                 builder.append( new byte[] {
                         ( byte ) bits
                 } );
+            } else {
+                throw new EndException( "The input stream does not provide any more bytes." );
             }
         }
         return builder.build();

@@ -8,12 +8,12 @@ import ctag.exception.NegativeLengthException;
 import java.io.IOException;
 
 /**
- * The tag that represents a signed 8bit integer array.
+ * The tag that represents a string array.
  * <br/><br/>
  * <table>
  * <tr>
  * <td><b>Binary prefix: </b></td>
- * <td><code>00001100 - 0C</code></td>
+ * <td><code>00010011 - 13</code></td>
  * </tr>
  * <tr>
  * <td><b>Minimal payload: </b></td>
@@ -21,70 +21,74 @@ import java.io.IOException;
  * </tr>
  * <tr>
  * <td><b>Maximal payload: </b></td>
- * <td>65538 bytes</td>
+ * <td>4295098370 bytes</td>
  * </tr>
  * </table>
- * The byte array binary starts with two bytes holding the length, followed by a
- * series of bytes holding the values respectively.
+ * The string array just holds a prefix, followed by unprefixed string binaries.
  * <br/>
  * <pre>
- * Prefix     Length           Value 1  Value 2  ...
- * 00001100   0000000000000010 00001001 00000001
- * BYTE_ARRAY length = 2       = 9      = 1
+ * Prefix       Length           Value 1                  ...
+ * 00001101     0000000000000001 000000000000000101001011
+ * STRING_ARRAY length = 1
  * </pre>
- * @since 1.0
+ * @since 1.1
  */
-public class TagByteArray implements ITag<byte[]> {
-    private byte[] array;
+public class TagStringArray implements ITag<String[]> {
+    private String[] array;
 
-    public TagByteArray( byte... bytes ) {
-        array = bytes;
+    public TagStringArray( String... shorts ) {
+        array = shorts;
     }
 
     @Override
     public Binary encode() {
         Binary.Builder builder = new Binary.Builder();
         builder.append( new TagShort( ( short ) array.length ).encode() );
-        builder.append( array );
+        for( String s : array ) {
+            builder.append( new TagString( s ).encode() );
+        }
         return builder.build();
     }
 
     @Override
-    public byte[] getValue() {
+    public String[] getValue() {
         return array;
     }
 
     @Override
-    public void setValue( byte[] value ) {
+    public void setValue( String[] value ) {
         array = value;
     }
 
     @Override
     public Binary getPrefixByte() {
-        return new Binary( ( byte ) 0b1100 );
+        return new Binary( ( byte ) 0b10011 );
     }
 
     /**
-     * Parses a CTag code as a byte array.
+     * Parses a CTag code as a string array.
      * @param input The {@link CTagInput} stream that possibly begins with this
-     *              byte array data.
-     * @return The parsed {@link TagByteArray} if parsed with success.
+     *              string array data.
+     * @return The parsed {@link TagStringArray} if parsed with success.
      * @exception IOException If the {@link CTagInput}'s underlying stream
      *                        throws an IOException.
-     * @since 1.0
+     * @since 1.1
      */
-    public static TagByteArray parse( CTagInput input ) throws IOException, EndException, NegativeLengthException {
+    public static TagStringArray parse( CTagInput input ) throws IOException, EndException, NegativeLengthException {
         short len = TagShort.parse( input ).getValue();
         if( len < 0 ) throw new NegativeLengthException( "Found array with negative length" );
-        Binary bytes = input.read( len );
-        return new TagByteArray( bytes.getBytes() );
+        String[] strings = new String[ len ];
+        for( int i = 0; i < len; i++ ) {
+            strings[ i ] = TagString.parse( input ).getValue();
+        }
+        return new TagStringArray( strings );
     }
 
     public String toString() {
-        StringBuilder builder = new StringBuilder( "BYTE_ARRAY [\n" );
+        StringBuilder builder = new StringBuilder( "STRING_ARRAY [\n" );
 
         int i = 0;
-        for( byte b : array ) {
+        for( String b : array ) {
             builder.append( "    " );
             builder.append( i );
             builder.append( ": " );

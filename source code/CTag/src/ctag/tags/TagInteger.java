@@ -2,6 +2,7 @@ package ctag.tags;
 
 import ctag.Binary;
 import ctag.CTagInput;
+import ctag.exception.EndException;
 
 import java.io.IOException;
 
@@ -90,7 +91,7 @@ public class TagInteger implements ITag<Integer> {
      *                        throws an IOException.
      * @since 1.0
      */
-    public static TagInteger parse( CTagInput input ) throws IOException {
+    public static TagInteger parse( CTagInput input ) throws IOException, EndException {
         Binary bytes = input.read( 4 );
         int byte1 = bytes.getByte( 3 ) & 0xff;
         int byte2 = bytes.getByte( 2 ) & 0xff;

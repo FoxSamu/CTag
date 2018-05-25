@@ -2,6 +2,7 @@ package ctag.tags;
 
 import ctag.Binary;
 import ctag.CTagInput;
+import ctag.exception.EndException;
 
 import java.io.IOException;
 
@@ -108,7 +109,7 @@ public class TagLong implements ITag<Long> {
      *                        throws an IOException.
      * @since 1.0
      */
-    public static TagLong parse( CTagInput input ) throws IOException {
+    public static TagLong parse( CTagInput input ) throws IOException, EndException {
         Binary bytes = input.read( 8 );
         long byte1 = bytes.getByte( 7 ) & 0xff;
         long byte2 = bytes.getByte( 6 ) & 0xff;
