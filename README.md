@@ -136,4 +136,6 @@ ARRAY [
 This are the values we created, so it works!
 
 
-Copyright &copy; 2018 RedGalaxy
+---
+Copyright &copy; 2018 RedGalaxy<br>
+Licenced under Apache Licence 2.0
