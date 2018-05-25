@@ -1,6 +1,5 @@
-<img src="https://i.imgur.com/u5rbx7o.png" width="300">
+<img src="https://i.imgur.com/u5rbx7o.png">
 
-# CTag
 A binary format, based on Minecraft NBT, and my (deprecated and archived) repository: MBDF (https://github.com/RedGalaxySoftware/MBDF). This repository contains java tools that can encode and decode that binary format.
 
 ## How to use
